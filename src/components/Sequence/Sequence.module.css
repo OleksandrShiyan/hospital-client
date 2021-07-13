@@ -1,10 +1,19 @@
+.sequenceContainer{
+    overflow-y: scroll;
+    height: 100vh;
+    background-color: #E5E5E5;
+}
+
 .TaskContainer{
     border: 1px solid lightgrey;
-    border-radius: 2px;
+    /*border-radius: 2px;*/
     padding: 8px;
     margin: 8px;
-    width: 170px;
-    height: 170px;
+    width: 150px;
+    height: 110px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(32, 43, 93, 0.08);
+    border-radius: 20px 20px 0 20px;
 }
 
 .TaskList{
@@ -14,13 +23,227 @@
 }
 
 .Title{
-padding: 8px;
+    padding: 8px;
 }
 
 .ColumnContainer{
-    border: 1px solid lightgrey;
-    border-radius: 2px;
     padding: 8px;
     margin: 8px;
+    background: #E5E5E5;
+}
+
+.doctorRoomsContainer{
+    background: #FBFBFF;
+    border: 1px dashed #6AC7BE;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 8px;
+    margin: 40px;
+}
+
+.sequenceUpperWrapper{
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 40px;
+    margin-right: 100px;
+}
+
+.sequenceText{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    color: #212121;
+}
+
+.button{
+    border-color: #6AC7BE;
+    border-style: solid;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    width: 120px;
+    height: 45px;
+    background: #6AC7BE;
+    border-radius: 20px;
+}
+
+.button:hover{
+    cursor: pointer;
+}
+
+option{
+    width: 280px;
+    height: 45px;
+    border: 1px solid #D3D3FF;
+    background-color: #E5E5E5;
+}
+
+select{
+    width: 280px;
+    height: 45px;
+    border: 1px solid #D3D3FF;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 24px;
+    color: #212121;
+    margin-left: 40px;
+    margin-bottom: 40px;
+    padding-left: 20px;
+    background-color: #E5E5E5;
+}
+
+.taskName{
+    width: 40px;
+    height: 40px;
+    background: #6AC7BE;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.roomInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal{
+    z-index: 1;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalContent {
+    position: relative;
+    z-index: 100;
+    background: #FFFFFF;
+    border-radius: 20px;
+    margin: 15% auto;
+    padding: 30px 50px;
+    border: 1px solid #888;
+    width: 440px;
+    height: 250px;
+    text-align: center;
+}
+
+.modalCloser{
+    z-index: -100;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+}
+
+.closeButtonWrapper{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.editRoomText{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    color: #212121;
+}
+
+.createFormWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 240px;
+}
+
+.createFormNameWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 440px;
+    height: 80px;
+}
+
+.nameText{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    color: #212121;
+    margin-left: 20px;
+}
+
+.nameInput{
+    width: 440px;
+    height: 45px;
+    border: 1px solid #DADADA;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding-left: 20px;
+}
+
+.saveButton{
+    width: 150px;
+    height: 50px;
+    background: #6AC7BE;
+    border-radius: 20px;
+    border-color: #6AC7BE;
+    border-style: solid;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+}
+
+.deleteFormButtonsWrapper{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.deleteButton{
+    width: 150px;
+    height: 50px;
+    background: #6AC7BE;
+    border-radius: 20px;
+    border-color: #6AC7BE;
+    border-style: solid;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    margin: 0 15px 0 15px;
+}
+
+.deleteButton:hover{
     background-color: white;
+    color: #6AC7BE;
 }

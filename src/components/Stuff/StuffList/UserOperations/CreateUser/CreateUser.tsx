@@ -5,18 +5,23 @@ import {doctorInterface} from "../../Doctor/Doctors";
 import {CREATE_USER} from "../../../../../graph/Mutations/user";
 import {GET_ASSISTANTS, GET_DOCTORS, GET_RECEPTIONISTS} from "../../../../../graph/Query/stuff";
 import {User} from "../../../../../App";
+import style from "../../../Stuff.module.scss";
+import Close from "../../../../../assets/RoomDelete.svg";
 
 interface createUserProps {
     userRoleId: number
     setUserRoleId: (id: number) => void
     userRole: number;
 }
+
 //create container component
 const CreateUser = ({userRoleId, setUserRoleId, userRole}: createUserProps) => {
 
     const [createUser] = useMutation(CREATE_USER)
 
-
+    const close = () => {
+        setUserRoleId(0);
+    }
 
     const createUserQuery = (user: User, userRoleId: number, query: DocumentNode) => {
         createUser({
@@ -31,73 +36,69 @@ const CreateUser = ({userRoleId, setUserRoleId, userRole}: createUserProps) => {
 
     const onSubmit = (formData: User) => {
         console.log("Update user: ", formData)
-        if (userRole === 2){
+        if (userRole === 2) {
             createUserQuery(formData, userRoleId, GET_DOCTORS)
         }
-        if (userRole === 3){
+        if (userRole === 3) {
             createUserQuery(formData, userRoleId, GET_ASSISTANTS)
         }
-        if (userRole === 4){
+        if (userRole === 4) {
             createUserQuery(formData, userRoleId, GET_RECEPTIONISTS)
         }
     }
 
     return (
-        <div>{/* wrapper */}
-            <div>{/* modal wrapper */}
-                <h1>Create doctor</h1>
+        <div className={style.modal}>
+            <div className={style.modalContent}>
+                <div className={style.closeButtonWrapper}>
+                    <img className={style.closeButton} onClick={close} src={Close} alt=""/>
+                </div>
+                <span className={style.createAlertText}>Create worker</span>
                 <Form
                     onSubmit={onSubmit}
                     render={({handleSubmit}) =>
-                        <form onSubmit={handleSubmit}>
-                            <div>
-                                <Field name={"fullname"}>
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Full Name: </label>
-                                            <input {...input} id={"fullname"} type={"text"} placeholder={"fullname"}/>
-                                            {meta.error && meta.touched && <span>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                            <div>
-                                <Field name={"login"}>
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Login: </label>
-                                            <input {...input} id={"login"} type={"text"} placeholder={"login"}/>
-                                            {meta.error && meta.touched && <span>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                            <div>
-                                <Field name={"password"}>
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Password: </label>
-                                            <input {...input} id={"password"} type={"text"} placeholder={"password"}/>
-                                            {meta.error && meta.touched && <span>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                            <div>
-                                <Field name={"phone"}>
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Phone: </label>
-                                            <input {...input} id={"phone"} type={"text"} placeholder={"phone"}/>
-                                            {meta.error && meta.touched && <span>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                            <button id="submitBtn" type="submit">Save</button>
+                        <form className={style.createFormWrapper} onSubmit={handleSubmit}>
+                            <Field name={"fullname"}>
+                                {({input, meta}) => (
+                                    <div className={style.createFormNameWrapper}>
+                                        <label className={style.nameText}>Full Name: </label>
+                                        <input {...input} className={style.nameInput} id={"fullname"} type={"text"} placeholder={"fullname"}/>
+                                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    </div>
+                                )}
+                            </Field>
+                            <Field name={"login"}>
+                                {({input, meta}) => (
+                                    <div className={style.createFormNameWrapper}>
+                                        <label className={style.nameText}>Login: </label>
+                                        <input {...input} className={style.nameInput} id={"login"} type={"text"} placeholder={"login"}/>
+                                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    </div>
+                                )}
+                            </Field>
+                            <Field name={"password"}>
+                                {({input, meta}) => (
+                                    <div className={style.createFormNameWrapper}>
+                                        <label className={style.nameText}>Password: </label>
+                                        <input {...input} className={style.nameInput} id={"password"} type={"text"} placeholder={"password"}/>
+                                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    </div>
+                                )}
+                            </Field>
+                            <Field name={"phone"}>
+                                {({input, meta}) => (
+                                    <div className={style.createFormNameWrapper}>
+                                        <label className={style.nameText}>Phone: </label>
+                                        <input {...input} className={style.nameInput} id={"phone"} type={"text"} placeholder={"phone"}/>
+                                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    </div>
+                                )}
+                            </Field>
+                            <button className={style.saveButton} id="submitBtn" type="submit">Save</button>
                         </form>
                     }/>
             </div>
+            <div onClick={close} className={style.modalCloser}></div>
         </div>
     );
 };

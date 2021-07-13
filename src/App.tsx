@@ -7,6 +7,8 @@ import Alerts from "./components/Alerts/Alerts";
 import Sequence from "./components/Sequence/Sequence";
 import Login from "./components/Authorization/Login";
 import Signup from "./components/Authorization/Signup";
+import "./App.scss"
+import style from "./App.module.scss"
 
 export interface User {
     id: number;
@@ -44,9 +46,9 @@ function App() {
     const [authUser, setAuthUser] = useState<User>(initialUser);
 
     return (
-        <div>
+        <div className={`${style.app}`}>
             <Navbar authUser={authUser} setAuthUser={setAuthUser}/>
-            <div>
+            <div className={style.contentWrap}>
                 <Route path={'/dashboard'} render={() => <Dashboard/>}/>
                 <Route path={'/stuff'} render={() => <Stuff/>}/>
                 <Route path={'/alert'} render={() => <Alerts/>}/>

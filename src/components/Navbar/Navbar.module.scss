@@ -1,0 +1,93 @@
+.navbarWrapper{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 10vw;
+    height: 100%;
+    overflow: hidden;
+}
+
+.pagesWrapper{
+    height: 50vh;
+    background-color: #212155;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.loginWrapper{
+    height: 50vh;
+    background-color: #212155;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.page{
+    text-decoration: none;
+    color: white;
+    height: 50px;
+    width: 150px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 20px;
+}
+
+.activePage{
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    text-decoration: none;
+    color: white;
+    width: 150px;
+    height: 50px;
+    background-color: #6AC7BE;
+    border-radius: 20px 0 0 20px;
+}
+
+.pageIcon{
+    margin: 0 10px 0 10px;
+}
+
+
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 45px;
+    color: #FFFFFF;
+}
+
+.logoutWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: #8484D8;
+}
+
+.logoutWrapper:hover{
+    cursor: pointer;
+}
+
+.userLogin{
+    color: white;
+}
+
+.loginIcon{
+    width: 28px;
+    height: 28px;
+}

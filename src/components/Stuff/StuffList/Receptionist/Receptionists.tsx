@@ -4,12 +4,21 @@ import {GET_DOCTORS, GET_RECEPTIONISTS} from "../../../../graph/Query/stuff";
 import EditUser from "../UserOperations/EditUser/EditUser";
 import DeleteUser from "../UserOperations/DeleteUser/DeleteUser";
 import Receptionist from "./Receptionist";
+import style from '../../Stuff.module.scss'
 
 export interface receptionistInterface {
     id: number
     login: string
     fullname: string
     phone: string
+    rooms: [
+        {name: string
+            status: {
+                color: string
+                textColor: string
+            }
+        }
+    ]
 }
 
 interface receptionistsProps {
@@ -45,8 +54,7 @@ const Receptionists = ({setEdit, edit, deleteId, setDeleteId, setUserRoleId, set
     let user = receptionists?.find(receptionist => +receptionist.id === +edit);
     return (
         <div>
-            Receptionists
-            <button onClick={createNewReceptionist}>Add new</button>
+            <button className={style.addDoctorButton} onClick={createNewReceptionist}>Add new</button>
             {
                 receptionists?.map(receptionist =>
                     <Receptionist setDeleteId={setDeleteId} setEdit={setEdit} key={receptionist.id} receptionist={receptionist}/>)

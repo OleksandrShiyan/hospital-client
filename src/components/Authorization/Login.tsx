@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Field} from 'react-final-form'
 import {useQuery} from "@apollo/client";
-import {Redirect} from 'react-router-dom'
+import {NavLink, Redirect} from 'react-router-dom'
 import {GET_ONE_USER, GET_USER_BY_LOGIN} from "../../graph/Query/user";
 import {Specialist, User} from "../../App";
+import style from './Authorization.module.scss'
 
 interface formDataInterface {
     login: string,
@@ -47,8 +48,6 @@ const Login = ({authUser, setAuthUser}: loginProps) => {
                  setAuthUser(a.data.getUserByLogin);
                  setRole(a.data.getUserByLogin.role);
                  console.log('User:' ,a.data.getUserByLogin)
-                 // console.log('Auth User:' ,authUser)
-                 //with role working twice
              }
         })
     }, [user, role])
@@ -67,33 +66,30 @@ const Login = ({authUser, setAuthUser}: loginProps) => {
     }
 
     return (
-        <div>
+        <div className={style.loginWrapper}>
             <Form
                 onSubmit={onSubmit}
                 // validate={validate}
                 render={({handleSubmit}) => (
-                    <form onSubmit={handleSubmit}>
-                        <div>
+                    <form className={style.formWrapper} onSubmit={handleSubmit}>
                             <Field name="login">
                                 {({input, meta}) => (
-                                    <div>
+                                    <div className={style.fieldsWrapper}>
                                         <label>Login</label>
                                         <input {...input} id="login" type="text" placeholder="login"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
-                        <div>
                             <Field name="password">
                                 {({input, meta}) => (
-                                    <div>
+                                    <div className={style.fieldsWrapper}>
                                         <label>Password</label>
                                         <input {...input} id="password" type="text" placeholder="password"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
                         <button type="submit">Submit</button>
+                        <div><NavLink to={'/signup'}>Sign Up</NavLink></div>
                     </form>
                 )}/>
         </div>

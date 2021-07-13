@@ -7,9 +7,8 @@ import {DragDropContext, Draggable} from 'aligned-rbd'
 import Column from './Column';
 import {RESERVE_ROOMS} from "../../graph/Mutations/room";
 import DeleteRoom from "./RoomOperations/DeleteRoom/DeleteRoom";
-
-// import {DragDropContext, } from 'react-beautiful-dnd'
-
+import UpdateRoom from "./RoomOperations/UpdateRoom/UpdateRoom";
+import style from './Sequence.module.css'
 
 interface Doctor {
     id: number
@@ -25,113 +24,74 @@ interface Room {
     assignedDoctorId: number
 }
 
-const Sequence = () => {
+const DEFAULT_FIELDS_LISTS = [
+    {
+        id: 'column-2',
+        title: 'Doctor rooms',
+        tasks: []
+    },
+    {
+        id: 'column-1',
+        title: 'Drag and Drop rooms to the box',
+        tasks: []
+    },
+]
 
-    const initialData = {
-        tasks: {
-            1: {id: '1', name: '1', assignedDoctor: 'Doctor'},
-            2: {id: '2', name: '2', assignedDoctor: 'Doctor'},
-            3: {id: '3', name: '3', assignedDoctor: 'Doctor'},
-            4: {id: '4', name: '4', assignedDoctor: 'Doctor'},
-            5: {id: '5', name: '5', assignedDoctor: 'Doctor'},
-            6: {id: '6', name: '6', assignedDoctor: 'Doctor'},
-            7: {id: '7', name: '7', assignedDoctor: 'Doctor'},
-            8: {id: '8', name: '8', assignedDoctor: 'Doctor'},
-            9: {id: '9', name: '9', assignedDoctor: 'Doctor'},
-            10: {id: '10', name: '10', assignedDoctor: 'Doctor'},
-            11: {id: '11', name: '11', assignedDoctor: 'Doctor'},
-            12: {id: '12', name: '12', assignedDoctor: 'Doctor'},
-            13: {id: '13', name: '13', assignedDoctor: 'Doctor'},
-            14: {id: '14', name: '14', assignedDoctor: 'Doctor'},
-            15: {id: '15', name: '15', assignedDoctor: 'Doctor'},
-            16: {id: '16', name: '16', assignedDoctor: 'Doctor'},
-        },
-        columns: {
-            'column-1': {
-                id: 'column-1',
-                title: 'Drag and Drop rooms to the box',
-                taskIds: ['1', '2', '3', '4', '5', '6', '7', '8'
-                    , '9', '10', '11', '12', '13',]
-            },
-            'column-2': {
-                id: 'column-2',
-                title: 'Doctor rooms',
-                taskIds: ['14', '15', '16',]
-            },
-        },
-        columnOrder: ['column-2', 'column-1',]
-    }
-    const initialData2 = [
-           {
-                id: 'column-1',
-                title: 'Drag and Drop rooms to the box',
-                tasks: [{id: '1', name: '1', assignedDoctor: 'Doctor'},
-                        {id: '2', name: '2', assignedDoctor: 'Doctor'},
-                        {id: '3', name: '3', assignedDoctor: 'Doctor'},
-                        {id: '4', name: '4', assignedDoctor: 'Doctor'},
-                        {id: '5', name: '5', assignedDoctor: 'Doctor'},
-                        {id: '6', name: '6', assignedDoctor: 'Doctor'},
-                        {id: '7', name: '7', assignedDoctor: 'Doctor'},
-                        {id: '8', name: '8', assignedDoctor: 'Doctor'},
-                        {id: '9', name: '9', assignedDoctor: 'Doctor'},
-                        {id: '10', name: '10', assignedDoctor: 'Doctor'},
-                        {id: '11', name: '11', assignedDoctor: 'Doctor'},
-                        {id: '12', name: '12', assignedDoctor: 'Doctor'},
-                        {id: '13', name: '13', assignedDoctor: 'Doctor'}]
-            },
-            {
-                id: 'column-2',
-                title: 'Doctor rooms',
-                tasks: [{id: '14', name: '14', assignedDoctor: 'Doctor'},
-                    {id: '15', name: '15', assignedDoctor: 'Doctor'},
-                    {id: '16', name: '16', assignedDoctor: 'Doctor'}]
-            },
-    ]
+
+function moveCardsInField(state,event){
+    const{source, destination, draggableId}=event;
+    return state.map((field) => {
+        if (field.id === source.droppableId) {
+            const copyArray = [...field.tasks];
+            const newRoom = copyArray.find(room => +room.id === +draggableId)
+            if(newRoom) {
+                copyArray.splice(source.index, 1);
+                copyArray.splice(destination.index, 0, newRoom);
+                return {...field, tasks: copyArray}
+            }
+        }
+        return field;
+    })
+}
+
+function moveCardToColumn(state,event){
+    const{source, destination, draggableId}=event;
+    const column = state.find(column => column.id === source.droppableId)
+
+    let newRoom = column.tasks[`${source.index}`]
+
+    return state.map((field) => {
+        if (field.id === source.droppableId) {
+            const copyArray = [...field.tasks];
+            newRoom = copyArray.find(room => +room.id === +draggableId)
+                copyArray.splice(source.index, 1);
+                return {...field, tasks: copyArray}
+        }
+        if (field.id === destination.droppableId && newRoom){
+            const copyArray = [...field.tasks];
+            copyArray.splice(destination.index, 0, newRoom);
+            return {...field, tasks: copyArray}
+        }
+        return field;
+    })
+}
+
+const Sequence = () => {
 
     const {data} = useQuery(GET_DOCTORS);
 
-    const {data: roomsData, refetch} = useQuery(GET_ALL_ROOMS);
+    const {data: roomsData} = useQuery(GET_ALL_ROOMS);
 
     const [reserveRooms] = useMutation(RESERVE_ROOMS);
 
-    const [state, setState] = useState(initialData);
-    const [deleteRoom, setDeleteRoom] = useState<number>(0);
-    const [currentDoctor, setCurrentDoctor] = useState<number>();
-    const [currentDoctorRooms, setCurrentDoctorRooms] = useState<Room[]>();
+    const [state, setState] = useState(DEFAULT_FIELDS_LISTS);
+
     const [allDoctors, setAllDoctors] = useState<Doctor[]>();
+    const [currentDoctor, setCurrentDoctor] = useState<number>();
+
     const [allRooms, setAllRooms] = useState<Room[]>();
-
-    useEffect(() => {
-        const allRoomsIds = allRooms?.map(room => room.id)
-        const allCurrentDoctorIds = currentDoctorRooms?.map(room => room.id)
-        const emptyRoomsIds = allRooms?.filter(room => room.assignedDoctorId != currentDoctor).map(room => room.id)
-        const tasks = Object.assign({}, allRooms)
-
-        if (tasks && emptyRoomsIds && allCurrentDoctorIds) {
-            const column1 = {
-                ...state.columns['column-1'],
-                taskIds: emptyRoomsIds
-            };
-
-            const column2 = {
-                ...state.columns['column-2'],
-                taskIds: allCurrentDoctorIds
-            };
-            setState({
-                ...state,
-                // @ts-ignore
-                tasks: tasks,
-                columns: {
-                    ...state.columns,
-                    // @ts-ignore
-                    ['column-1']: column1,
-                    // @ts-ignore
-                    ['column-2']: column2
-                }
-            })
-        }
-
-    }, [currentDoctorRooms])
+    const [deleteRoom, setDeleteRoom] = useState<number>(0);
+    const [updateRoom, setUpdateRoom] = useState<{id: number, name: string}>({id: 0, name: 'init'});
 
     useEffect(() => {
         if (data) {
@@ -141,133 +101,121 @@ const Sequence = () => {
 
     useEffect(() => {
         if (roomsData) {
+            console.log("All rooms ", roomsData.getAllRooms)
+            const newState = [
+                {...state[0]},
+                {...state[1],
+                    tasks: roomsData.getAllRooms
+                }
+            ]
+            setState(newState)
             setAllRooms(roomsData.getAllRooms)
         }
     }, [roomsData])
 
     useEffect(() => {
         if (currentDoctor && allRooms) {
-            let rooms = allRooms.filter(room => +room.assignedDoctorId === +currentDoctor)
-            setCurrentDoctorRooms(rooms)
+            const doctorRooms = allRooms.filter(room => +room.assignedDoctorId === +currentDoctor)
+            const freeRooms = allRooms.filter(room => +room.assignedDoctorId !== +currentDoctor)
+
+            const newState = [
+                {...state[0],
+                    tasks: doctorRooms
+                },{...state[1],
+                    tasks: freeRooms
+                }
+            ]
+            // @ts-ignore
+            setState(newState);
+            console.log("Free rooms: ", freeRooms)
+            console.log("Doctor rooms: ", doctorRooms)
         }
     }, [currentDoctor])
 
 
     const onSubmit = (formData: { userId: number }) => {
+        console.log("User id: ", formData.userId, " Rooms: ", state[0].tasks)
         reserveRooms({
             variables: {
                 userId: formData.userId,
-                roomsId: state.columns["column-2"].taskIds
+                roomsId: state[0].tasks
             },
         }).then((a) => {
-            setState({
-                ...state,
-                tasks: a.data.reserveRooms
-            })
+            if (a.data.reserveRooms && currentDoctor){
+                const doctorRooms = a.data.reserveRooms.filter(room => +room.assignedDoctorId === +currentDoctor)
+                const freeRooms = a.data.reserveRooms.filter(room => +room.assignedDoctorId !== +currentDoctor)
+
+                const newState = [
+                    {...state[0],
+                        tasks: doctorRooms
+                    },{...state[1],
+                        tasks: freeRooms
+                    }
+                ]
+                // @ts-ignore
+                setState(newState);
+            }
+            console.log("Action: ", a.data.reserveRooms)
         })
     }
 
     const validate = (props: any) => {
         setCurrentDoctor(props);
     }
-
-    const onDragEnd = result => {
-        const {destination, source, draggableId} = result;
+    const onDragEnd = event => {
+        const {destination, source, draggableId} = event;
 
         if (!destination) {
             return;
         }
 
-        if (
-            destination.droppableId === source.droppableId &&
-            destination.index === source.index
+        if (destination.droppableId === source.droppableId
+            && destination.index === source.index
         ) {
             return;
         }
+        const start = state.find(column => column.id === source.droppableId)
+        const finish = state.find(column => column.id === destination.droppableId)
 
-        const start = state.columns[source.droppableId];
-        const finish = state.columns[destination.droppableId];
-
-        if (start === finish) {
-            const newTaskIds = Array.from(start.taskIds);
-            newTaskIds.splice(source.index, 1);
-            newTaskIds.splice(destination.index, 0, draggableId);
-
-            const newColumn = {
-                ...start,
-                taskIds: newTaskIds
-            };
-
-            const newState = {
-                ...state,
-                columns: {
-                    ...state.columns,
-                    [newColumn.id]: newColumn
-                }
-            };
-            setState(newState);
+        if (start === finish){
+            setState((state ) => moveCardsInField(state,event))
             return;
         }
 
-        //Moving from one list to another
-        const startTaskIds = Array.from(start.taskIds);
-        startTaskIds.splice(source.index, 1);
-        const newStart = {
-            ...start,
-            taskIds: startTaskIds
-        };
-
-        const finishTaskIds = Array.from(finish.taskIds);
-        finishTaskIds.splice(destination.index, 0, draggableId);
-        const newFinish = {
-            ...finish,
-            taskIds: finishTaskIds
-        };
-
-        const newState = {
-            ...state,
-            columns: {
-                ...state.columns,
-                [newStart.id]: newStart,
-                [newFinish.id]: newFinish
-            }
-        }
-
-        setState(newState);
-
-    };
-
-    // console.log('Delete id: ', deleteRoom)
-    console.log("State: ", state)
+        setState((state) => moveCardToColumn(state, event))
+    }
 
     return (
-        <div>
-            Sequence
+        <div className={style.sequenceContainer}>
             <div>
                 <Form
                     onSubmit={onSubmit}
                     render={({handleSubmit, values}) =>
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <Field validate={validate} name={"userId"} component={"select"}>
-                                    <option hidden={true}/>
-                                    {
-                                        allDoctors?.map(doctor =>
-                                            <option key={doctor.id} value={doctor.id}>{doctor.fullname}</option>)
-                                    }
-                                </Field>
+                                <div className={style.sequenceUpperWrapper}>
+                                    <span className={style.sequenceText}>Choose a doctor</span>
+                                    <button className={style.button} id="submitBtn" type="submit">Save</button>
+                                </div>
+                                <div className={style.doctors}>
+                                    <Field  validate={validate} name={"userId"} component={"select"}>
+                                        <option className={style.doctors} hidden={true}/>
+                                        {
+                                            allDoctors?.map(doctor =>
+                                                <option className={style.doctors} key={doctor.id} value={doctor.id}>{doctor.fullname}</option>)
+                                        }
+                                    </Field>
+                                </div>
                             </div>
-                            <button id="submitBtn" type="submit">Save</button>
                         </form>
                     }/>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <div>
                     {
-                        state.columnOrder.map(columnId => {
-                            const column = state.columns[columnId];
-                            const tasks = column.taskIds.map(taskId => state.tasks[taskId])
-                            return <Column key={column.id} setDeleteRoom={setDeleteRoom} column={column} tasks={tasks}/>
+                        state.map(column => {
+                            const tasks = column.tasks
+                            return <Column setUpdateRoom={setUpdateRoom} key={column.id} setDeleteRoom={setDeleteRoom} column={column} tasks={tasks}/>
                         })
                     }
                 </div>
@@ -276,6 +224,11 @@ const Sequence = () => {
                 deleteRoom
                     ? <DeleteRoom state={state} setState={setState} setDeleteRoom={setDeleteRoom}
                                   deleteRoom={deleteRoom}/>
+                    : null
+            }
+            {
+                updateRoom.id
+                    ? <UpdateRoom state={state} setState={setState} updateRoom={updateRoom} setUpdateRoom={setUpdateRoom}/>
                     : null
             }
         </div>

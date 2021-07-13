@@ -6,10 +6,10 @@ import style from './Sequence.module.css'
 // import {Droppable} from 'react-beautiful-dnd'
 
 
-const Column = ({column, setDeleteRoom, tasks}) => {
-    console.log(tasks)
+const Column = ({column,setUpdateRoom, setDeleteRoom, tasks}) => {
+    // console.log(tasks)
     return (
-        <div className={style.ColumnContainer}>
+        <div className={column.id === 'column-1' ? style.ColumnContainer : style.doctorRoomsContainer}>
             <h3 className={style.Title}>{column.title}</h3>
             <Droppable droppableId={column.id} direction='grid'>
                 {(provided, snapshot)=>(
@@ -20,8 +20,8 @@ const Column = ({column, setDeleteRoom, tasks}) => {
                         // isDraggingOver={snapshot.isDraggingOver}
                     >
                         {tasks.map((task,index ) => {
-                           console.log(task,index)
-                             return    <Task index={index} setDeleteRoom={setDeleteRoom} key={task.id} task={task}/>
+                           // console.log(task,index)
+                             return    <Task setUpdateRoom={setUpdateRoom} index={index} setDeleteRoom={setDeleteRoom} key={task.id} task={task}/>
                         })}
                         {provided.placeholder}
                     </div>

@@ -1,5 +1,7 @@
 import React from 'react';
 import {AlertInterface} from "../Alerts";
+import style from '../Alerts.module.scss'
+import EditPen from '../../../assets/EditPen.svg'
 
 interface alertProps {
     alert: AlertInterface
@@ -13,11 +15,11 @@ const Alert = ({alert, setEdit}: alertProps) => {
     }
 
     return (
-        <div key={alert.id}>
-            <div>
-                ID: {alert.id}, Name: {alert.name}
-                <button onClick={onClick}>Edit</button>
-            </div>
+        <div className={style.alert} key={alert.id}>
+            <span className={style.alertId}>{alert.id}</span>
+            <span className={style.alertName}>{alert.name}</span>
+            <span className={style.alertColor} onClick={onClick} style={{background: alert.color, borderColor: alert.textColor}}> </span>
+            <img className={style.alertEdit} onClick={onClick} src={EditPen} alt=""/>
         </div>
     );
 };

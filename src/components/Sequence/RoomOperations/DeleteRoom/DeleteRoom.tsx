@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useMutation} from "@apollo/client";
 import {DELETE_ROOM} from "../../../../graph/Mutations/room";
-import {GET_ALL_ROOMS} from "../../../../graph/Query/room";
-import {stat} from "fs";
-import {GET_DOCTORS} from "../../../../graph/Query/stuff";
+import style from '../../Sequence.module.css'
+import Close from "../../../../assets/RoomDelete.svg";
 
 interface deleteUserProps {
     deleteRoom: number
@@ -22,48 +21,28 @@ const DeleteRoom = ({deleteRoom, state, setState, setDeleteRoom}: deleteUserProp
     const deleteButton = () => {
         const deleteRoomById = (deleteRoom) => {
 
+            const index2 = state[0].tasks.findIndex(room => +room.id === +deleteRoom)
+            const index1 = state[1].tasks.findIndex(room => +room.id === +deleteRoom)
+            const index = index1 === -1 ? {index: index2, column: 0} : {index: index1, column: 1}
 
-
-            const index2 = state.columns['column-2'].taskIds.findIndex(id => +id === +deleteRoom)
-            const index1 = state.columns['column-1'].taskIds.findIndex(id => +id === +deleteRoom)
-            const index = index1 === -1 ? index2 : index1
-            const newState = {
-                ...state,
-                tasks: {
-                    ...state.tasks
-                },
-                columns: {
-                    ...state.columns,
-                    'column-1': {
-                        ...state.columns['column-1'],
-                        taskIds: [...state.columns['column-1'].taskIds]
-                    },
-                    'column-2': {
-                        ...state.columns['column-2'],
-                        taskIds: [...state.columns['column-2'].taskIds]
-                    }
+            const newState = [
+                {
+                    ...state[0],
+                    tasks: [...state[0].tasks]
+                }, {
+                    ...state[1],
+                    tasks: [...state[1].tasks]
                 }
-            }
+            ]
 
-            if (index1 === -1){
+            newState[index.column].tasks.splice(index.index, 1)
 
-                console.log('Delete from column1, index: ', deleteRoom)
-                newState.columns['column-2'].taskIds.splice(index2, 1)
-                delete newState.tasks[+deleteRoom]
-            }if (index2 === -1){
-                console.log('Delete from column2, index: ', deleteRoom)
-                newState.columns['column-1'].taskIds.splice(index1, 1)
-
-                delete newState.tasks[+deleteRoom]
-            }
             deleteRoomMutation({
                 variables: {
                     roomId: deleteRoom
-                },
-                refetchQueries: [{query: GET_DOCTORS}]
-            }).then((a) => {
-                console.log('Response: ', a)
+                }
             })
+
             setState(newState)
         }
 
@@ -72,13 +51,21 @@ const DeleteRoom = ({deleteRoom, state, setState, setDeleteRoom}: deleteUserProp
     }
 
     return (
-        <div>
-            Delete Doctor
-            <div>Are you sure you want to delete this doctor?</div>
-            <div>
-                <button onClick={cancelButton}>Cancel</button>
-                <button onClick={deleteButton}>Delete</button>
+        <div className={style.modal}>
+            <div className={style.modalContent}>
+                <div className={style.closeButtonWrapper}>
+                    <img className={style.closeButton} onClick={cancelButton} src={Close} alt=""/>
+                </div>
+                <div className={style.createFormWrapper}>
+                    <span className={style.editRoomText}>Delete Room</span>
+                    <div>Are you sure you want to delete this room?</div>
+                    <div className={style.deleteFormButtonsWrapper}>
+                        <button className={style.deleteButton} onClick={cancelButton}>Cancel</button>
+                        <button className={style.deleteButton} onClick={deleteButton}>Delete</button>
+                    </div>
+                </div>
             </div>
+            <div onClick={cancelButton} className={style.modalCloser}></div>
         </div>
     );
 };

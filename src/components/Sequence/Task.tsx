@@ -1,13 +1,18 @@
 import React from 'react';
 import style from './Sequence.module.css'
 import {Draggable} from 'aligned-rbd'
+import DeleteRoom from '../../assets/RoomDelete.svg'
+import EditRoom from '../../assets/EditPen.svg'
 // import {Draggable} from 'react-beautiful-dnd'
 
 
-const Task = ({task,setDeleteRoom, index}) => {
+const Task = ({task, setUpdateRoom, setDeleteRoom, index}) => {
 
     const onDelete = () => {
         setDeleteRoom(task.id)
+    }
+    const onUpdate = () => {
+        setUpdateRoom({id: task.id, name: task.name})
     }
 
 
@@ -21,11 +26,13 @@ const Task = ({task,setDeleteRoom, index}) => {
                     ref={provided.innerRef}
                     // isDragging={snapshot.isDragging}
                 >
-                    Name: {task.name}
-                    <p>{task.assignedDoctor}</p>
-                    <div>
-                        <button onClick={onDelete}>Delete</button>
-                        <button>Edit</button>
+                    <div className={style.buttonWrapper}>
+                        <img onClick={onDelete} src={DeleteRoom} alt="delete"/>
+                        <img onClick={onUpdate} src={EditRoom} alt="delete"/>
+                    </div>
+                    <div className={style.roomInfo}>
+                        <span className={style.taskName}>{task.name}</span>
+                        <p>{task.assignedDoctor}</p>
                     </div>
                 </div>
             )}

@@ -4,12 +4,21 @@ import {GET_DOCTORS} from "../../../../graph/Query/stuff";
 import Doctor from "./Doctor";
 import EditUser from "../UserOperations/EditUser/EditUser";
 import DeleteUser from "../UserOperations/DeleteUser/DeleteUser";
+import style from '../../Stuff.module.scss'
 
 export interface doctorInterface {
     id: number
     login: string
     fullname: string
     phone: string
+    rooms: [
+        {name: string
+            status: {
+                color: string
+                textColor: string
+            }
+        }
+    ]
 }
 
 interface doctorsProps {
@@ -43,10 +52,12 @@ const Doctors = ({setEdit, edit, deleteId, setDeleteId, setUserRoleId, setUserRo
     }, [])
 
     let user = doctors?.find(doctor => +doctor.id === +edit);
+
+    console.log('doctors: ', doctors)
+
     return (
         <div>
-            Doctors
-            <button onClick={createNewDoctor}>Add new</button>
+            <button className={style.addDoctorButton} onClick={createNewDoctor}>Add new</button>
             {
                 doctors?.map(doctor => <Doctor setDeleteId={setDeleteId} setEdit={setEdit} key={doctor.id} doctor={doctor}/>)
             }

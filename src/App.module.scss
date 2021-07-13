@@ -1,0 +1,14 @@
+.app{
+  display: grid;
+  grid-template-columns: 10fr 90fr;
+  height: 100vh;
+  width: 100vw;
+  box-sizing:border-box;
+
+}
+.contentWrap{
+  width:90vw;
+
+
+  max-height: 100vh;
+}

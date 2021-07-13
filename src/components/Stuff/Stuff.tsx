@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {NavLink, Route} from "react-router-dom";
+import {NavLink, Route, useLocation} from "react-router-dom";
 import Doctors from "./StuffList/Doctor/Doctors";
 import Assistants from "./StuffList/Assistant/Assistants";
 import CreateUser from "./StuffList/UserOperations/CreateUser/CreateUser";
 import Receptionists from './StuffList/Receptionist/Receptionists';
+import style from './Stuff.module.scss';
 
 const Stuff = () => {
+
+    const location = useLocation();
+    const path = location.pathname
 
     const [edit, setEdit] = useState(0);
     const [deleteId, setDeleteId] = useState(0);
@@ -17,13 +21,13 @@ const Stuff = () => {
     }, [userRole])
 
     return (
-        <div>
-            Stuff
+        <div className={style.stuffWrapper}>
+            <div className={style.jobWrapper}>
+                <NavLink className={path === '/stuff/doctors' ? style.currentJob : style.job} to={'/stuff/doctors'}>Doctors</NavLink>
+                <NavLink className={path === '/stuff/assistants' ? style.currentJob : style.job} to={'/stuff/assistants'}>Assistants</NavLink>
+                <NavLink className={path === '/stuff/receptionists' ? style.currentJob : style.job} to={'/stuff/receptionists'}>Receptionists</NavLink>
+            </div>
             <div>
-                <div><NavLink to={'/stuff/doctors'}>Doctors</NavLink></div>
-                <div><NavLink to={'/stuff/assistants'}>Assistants</NavLink></div>
-                <div><NavLink to={'/stuff/receptionists'}>Receptionists</NavLink></div>
-
                 <Route path={'/stuff/doctors'} render={() =>
                     <Doctors setUserRoleId={setUserRoleId} deleteId={deleteId} setUserRole={setUserRole}
                              setDeleteId={setDeleteId} edit={edit} setEdit={setEdit} userRole={userRole}/>}/>

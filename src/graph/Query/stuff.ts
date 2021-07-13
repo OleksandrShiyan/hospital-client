@@ -11,19 +11,12 @@ export const GET_DOCTORS = gql`
                 id
                 name
             }
-        }
-    }
-`
-
-export const GET_DOCTORS_WITH_ROOMS = gql`
-    query GetDoctors{
-        getDoctors{
-            id
-            fullname
             rooms{
-                id
                 name
-                assignedDoctor
+                status{
+                    color
+                    textColor
+                }
             }
         }
     }

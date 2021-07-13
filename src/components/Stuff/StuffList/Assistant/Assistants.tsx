@@ -2,15 +2,23 @@ import React, {useEffect, useState} from 'react';
 import {useQuery} from "@apollo/client";
 import {GET_ASSISTANTS} from "../../../../graph/Query/stuff";
 import Assistant from "./Assistant";
-import Doctor from "../Doctor/Doctor";
 import EditUser from "../UserOperations/EditUser/EditUser";
 import DeleteUser from "../UserOperations/DeleteUser/DeleteUser";
+import style from '../../Stuff.module.scss'
 
 export interface assistantsInterface {
     id: number
     fullname: string
     login: string
     phone: string
+    rooms: [
+        {name: string
+            status: {
+                color: string
+                textColor: string
+            }
+        }
+    ]
 }
 
 interface assistantsProps {
@@ -49,8 +57,7 @@ const Assistants = ({setEdit, edit, deleteId, setDeleteId, setUserRoleId, setUse
 
     return (
         <div>
-            Assistants
-            <button onClick={createNewAssistant}>Add new</button>
+            <button className={style.addDoctorButton} onClick={createNewAssistant}>Add new</button>
             {
                 assistants?.map( assistant =>
                     <Assistant setDeleteId={setDeleteId} setEdit={setEdit} key={assistant.id} assistant={assistant}/>)

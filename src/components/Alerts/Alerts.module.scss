@@ -1,0 +1,192 @@
+.pageWrapper{
+  background-color: #E5E5E5;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.buttonWrapper{
+  height: 100px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.button{
+  width: 150px;
+  height: 50px;
+  background: #6AC7BE;
+  border-radius: 20px;
+  margin-right: 70px;
+  border-color: #6AC7BE;
+  border-style: solid;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+
+.button:hover{
+  cursor: pointer;
+}
+
+.alertsWrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert{
+  width: 550px;
+  height: 55px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 20px rgba(178, 178, 233, 0.19);
+  border-radius: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.alertId{
+  height: 55px;
+  width: 36px;
+  background: rgba(106,199, 190,0.3);
+  //opacity: 0.3;
+  border-radius: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #212121;
+}
+
+.alertColor{
+  width: 33px;
+  height: 33px;
+  border: 2px solid #DDDDDD;
+  border-radius: 50%;
+}
+
+.alertName{
+  width: 300px;
+}
+
+.alertEdit{
+  margin-right: 30px;
+}
+
+.alertEdit:hover{
+  cursor: pointer;
+}
+
+.alertColor:hover{
+  cursor: pointer;
+}
+
+.modal{
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  position: relative;
+  z-index: 100;
+  background: #FFFFFF;
+  border-radius: 20px;
+  margin: 15% auto;
+  padding: 30px 50px;
+  border: 1px solid #888;
+  width: 440px;
+  height: 360px;
+  text-align: center;
+}
+
+.modalCloser{
+  z-index: -100;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.closeButtonWrapper{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.createAlertText{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  color: #212121;
+}
+
+.createFormWrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 350px;
+}
+
+.createFormNameWrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 440px;
+  height: 80px;
+}
+
+.nameInput{
+  width: 440px;
+  height: 45px;
+  border: 1px solid #DADADA;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding-left: 20px;
+}
+
+.nameText{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #212121;
+  margin-left: 20px;
+}
+
+.saveButton{
+  width: 150px;
+  height: 50px;
+  background: #6AC7BE;
+  border-radius: 20px;
+  border-color: #6AC7BE;
+  border-style: solid;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+
+.saveButton:hover{
+  cursor: pointer;
+}
+
+.closeButton:hover{
+  cursor: pointer;
+}

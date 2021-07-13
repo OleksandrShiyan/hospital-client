@@ -5,6 +5,7 @@ import {CREATE_ALERT} from "../../graph/Mutations/alert";
 import Alert from './Alert/Alert'
 import EditAlert from "./EditAlert/EditAlert";
 import CreateAlert from "./CreateAlert/CreateAlert";
+import style from './Alerts.module.scss'
 
 export interface AlertInterface {
     id: number
@@ -34,12 +35,15 @@ const Alerts = () => {
         if (data) {
             setAlerts(data.getAllAlerts)
         }
-        // console.log(data)
     }, [data])
 
+
     return (
-        <div>
-            <div>
+        <div className={style.pageWrapper}>
+            <div className={style.buttonWrapper}>
+                <button className={style.button} onClick={crAlert}>Add new</button>
+            </div>
+            <div className={style.alertsWrapper}>
                 {alerts
                     ? alerts.map(alert => <Alert key={alert.id} setEdit={setEdit} alert={alert}/>)
                     : null
@@ -53,7 +57,6 @@ const Alerts = () => {
                 ? <CreateAlert setCreate={setCreate}/>
                 : null
             }
-            <button onClick={crAlert}>Add new</button>
         </div>
     );
 };
