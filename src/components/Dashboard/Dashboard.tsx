@@ -44,7 +44,7 @@ const Dashboard = () => {
         }
     }, [alertsData])
 
-    // console.log('Doctors: ', doctors)
+    console.log('Doctors: ', doctors)
     // console.log('Alerts: ', alerts)
     // console.log("Editing room: ",editStatus)
 
@@ -56,7 +56,7 @@ const Dashboard = () => {
 
             {
                 editStatus
-                    ? <UpdateStatus setEditStatus={setEditStatus} editStatus={editStatus} alerts={alerts}/>
+                    ? <UpdateStatus setDoctors={setDoctors} setEditStatus={setEditStatus} editStatus={editStatus} alerts={alerts}/>
                     : null
             }
         </div>

@@ -41,6 +41,13 @@ export const CHANGE_ROOM_STATUS = gql`
                 id
                 name
                 assignedDoctor
+                statusId
+                status{
+                    id
+                    color
+                    name
+                    textColor
+                }
             }
             specialization{
                 name

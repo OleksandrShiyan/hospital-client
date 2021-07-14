@@ -4,6 +4,7 @@ import {useMutation} from "@apollo/client";
 import {CREATE_USER} from "../../graph/Mutations/user";
 import {Redirect} from 'react-router-dom'
 import {User} from "../../App";
+import style from './Authorization.module.scss'
 
 interface formRegisterDataInterface {
     login: string;
@@ -46,73 +47,60 @@ const Signup = ({setAuthUser} : signupProps) => {
     }
 
     return (
-        <div>
-            Sign In
+        <div className={style.loginWrapper}>
             <Form
                 onSubmit={onSubmit}
                 render={({handleSubmit}) =>
-                    <form onSubmit={handleSubmit}>
-                        <div>
+                    <form className={style.signUpFormWrapper} onSubmit={handleSubmit}>
                             <Field name="login">
                                 {({input, meta}) => (
-                                    <div>
-                                        <label>Login</label>
-                                        <input {...input} id="login" type="text" placeholder="login"/>
+                                    <div className={style.fieldsWrapper}>
+                                        <label className={style.fieldName}>Login</label>
+                                        <input {...input} className={style.fieldInput} id="login" type="text" placeholder="login"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
-                        <div>
                             <Field name="password">
                                 {({input, meta}) => (
-                                    <div>
-                                        <label>Password</label>
-                                        <input {...input} id="password" type="text" placeholder="password"/>
+                                    <div className={style.fieldsWrapper}>
+                                        <label className={style.fieldName}>Password</label>
+                                        <input {...input} className={style.fieldInput} id="password" type="text" placeholder="password"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
-                        <div>
                             <Field name="phone">
                                 {({input, meta}) => (
-                                    <div>
-                                        <label>Phone</label>
-                                        <input {...input} id="phone" type="text" placeholder="phone"/>
+                                    <div className={style.fieldsWrapper}>
+                                        <label className={style.fieldName}>Phone</label>
+                                        <input {...input} className={style.fieldInput} id="phone" type="text" placeholder="phone"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
-                        <div>
                             <Field name="fullname">
                                 {({input, meta}) => (
-                                    <div>
-                                        <label>Full name</label>
-                                        <input {...input} id="fullname" type="text" placeholder="full name"/>
+                                    <div className={style.fieldsWrapper}>
+                                        <label className={style.fieldName}>Full name</label>
+                                        <input {...input} className={style.fieldInput} id="fullname" type="text" placeholder="full name"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
-                        <div>
                             <Field name="roleId">
                                 {({input, meta}) => (
-                                    <div>
-                                        <label>Role ID</label>
-                                        <input {...input} id="roleId" type="text" placeholder="roleId"/>
+                                    <div className={style.fieldsWrapper}>
+                                        <label className={style.fieldName}>Role ID</label>
+                                        <input {...input} className={style.fieldInput} id="roleId" type="text" placeholder="roleId"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
-                        <div>
                             <Field name="specializationId">
                                 {({input, meta}) => (
-                                    <div>
-                                        <label>Specialization ID</label>
-                                        <input {...input} id="specializationId" type="text" placeholder="specialization Id"/>
+                                    <div className={style.fieldsWrapper}>
+                                        <label className={style.fieldName}>Specialization ID</label>
+                                        <input {...input} className={style.fieldInput} id="specializationId" type="text" placeholder="specialization Id"/>
                                     </div>
                                 )}
                             </Field>
-                        </div>
-                        <button type="submit">Submit</button>
+                        <button className={style.loginButton} type="submit">Submit</button>
                     </form>
                 }
             />

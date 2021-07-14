@@ -75,21 +75,24 @@ const Login = ({authUser, setAuthUser}: loginProps) => {
                             <Field name="login">
                                 {({input, meta}) => (
                                     <div className={style.fieldsWrapper}>
-                                        <label>Login</label>
-                                        <input {...input} id="login" type="text" placeholder="login"/>
+                                        <label className={style.fieldName}>Login</label>
+                                        <input {...input} className={style.fieldInput} id="login" type="text" placeholder="login"/>
                                     </div>
                                 )}
                             </Field>
                             <Field name="password">
                                 {({input, meta}) => (
                                     <div className={style.fieldsWrapper}>
-                                        <label>Password</label>
-                                        <input {...input} id="password" type="text" placeholder="password"/>
+                                        <label className={style.fieldName}>Password</label>
+                                        <input {...input} className={style.fieldInput} id="password" type="text" placeholder="password"/>
                                     </div>
                                 )}
                             </Field>
-                        <button type="submit">Submit</button>
-                        <div><NavLink to={'/signup'}>Sign Up</NavLink></div>
+                        <button className={style.loginButton} type="submit">Submit</button>
+                        <div className={style.signUpLinkWrapper}>
+                            <span>Or Sign Up using</span>
+                            <NavLink className={style.signUpLink} to={'/signup'}>Sign Up</NavLink>
+                        </div>
                     </form>
                 )}/>
         </div>

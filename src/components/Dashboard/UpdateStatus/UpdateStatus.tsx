@@ -3,7 +3,7 @@ import Status from "./Status/Status";
 import style from '../Dashboard.module.scss'
 import Close from '../../../assets/RoomDelete.svg'
 
-const UpdateStatus = ({alerts, editStatus, setEditStatus}) => {
+const UpdateStatus = ({alerts, setDoctors, editStatus, setEditStatus}) => {
 
     const closeModal = () => {
         setEditStatus(0);
@@ -22,7 +22,7 @@ const UpdateStatus = ({alerts, editStatus, setEditStatus}) => {
                 </div>
                 {
                     alerts.map(alert => {
-                        return <Status setEditStatus={setEditStatus} editStatus={editStatus} alert={alert}
+                        return <Status setDoctors={setDoctors} setEditStatus={setEditStatus} editStatus={editStatus} alert={alert}
                                        key={alert.id}/>
                     })
                 }

@@ -3,7 +3,7 @@ import {useMutation} from "@apollo/client";
 import {CHANGE_ROOM_STATUS} from "../../../../graph/Mutations/room";
 import style from '../../Dashboard.module.scss'
 
-const Status = ({alert, editStatus, setEditStatus}) => {
+const Status = ({alert, editStatus, setEditStatus, setDoctors}) => {
 
     function close(e){
         console.log("stopped")
@@ -21,7 +21,8 @@ const Status = ({alert, editStatus, setEditStatus}) => {
             }
         }).then((a) => {
             setEditStatus(0);
-            console.log("Action: ", a)
+            setDoctors(a.data.changeRoomStatus)
+            // console.log("Action: ", a.data.changeRoomStatus)
         })
     }
 
