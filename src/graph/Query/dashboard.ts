@@ -1,5 +1,6 @@
 import {gql} from '@apollo/client'
 
+// eslint-disable-next-line import/prefer-default-export
 export const GET_DOCTORS_WITH_ROOMS = gql`
     query GetDoctors{
         getDoctors{

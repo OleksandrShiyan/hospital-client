@@ -54,6 +54,7 @@ function App() {
         <Route path="/sequence" render={() => <Sequence />} />
         <Route
           path="/login"
+            // @ts-ignore
           render={() => <Login authUser={authUser} setAuthUser={setAuthUser} />}
         />
         <Route path="/signup" render={() => <Signup setAuthUser={setAuthUser} />} />
